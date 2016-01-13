@@ -6,7 +6,7 @@
 #    By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/13 11:09:09 by nschilli          #+#    #+#              #
-#    Updated: 2016/01/13 13:54:33 by nschilli         ###   ########.fr        #
+#    Updated: 2016/01/13 16:23:53 by nschilli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,14 @@ SRC_DIR = /srcs/
 INC_DIR = includes/
 
 SERVEUR_FILE =	main.c \
+				manager_clients.c \
 
 SERVEUR_SRC = $(addprefix $(SERVEUR_DIR)/$(SRC_DIR), $(SERVEUR_FILE))
 
 SERVEUR_OBJ = $(SERVEUR_SRC:.c=.o)
 
 CLIENT_FILE = main.c \
+			  name.c \
 
 CLIENT_SRC = $(addprefix $(CLIENT_DIR)/$(SRC_DIR), $(CLIENT_FILE))
 

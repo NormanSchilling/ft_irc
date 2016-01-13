@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:23:25 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 13:55:25 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 16:01:54 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,32 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <signal.h>
+# include <sys/select.h>
 # include "../../libft/libft.h"
 
 # define BUFF_SIZE 1024
+# define MAX_CLIENTS 42
+# define MAX_CHANNEL 10
 
-// int		manager(int cs);
+typedef struct					s_client
+{
+	int							sock;
+	char						*name;
+	int							n_channel;
+	char						*channel[MAX_CHANNEL];
+}								t_client;
+
+typedef struct					s_server
+{
+	int							sock;
+	int							max;
+	fd_set						rdfs;
+	t_client					clients[MAX_CLIENTS];
+}								t_server;
+
 int		listen_clients(int stock);
 int		create_server(int port);
+
+int		new_clients(t_server *server, int *actual_client);
 
 #endif

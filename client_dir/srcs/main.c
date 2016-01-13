@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 11:43:00 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 16:44:14 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,28 @@
 
 void	manager(int sock)
 {
-	int			r;
+	// int			r;
 	char		buff[BUFF_SIZE];
+	
 
 	ft_bzero(buff, BUFF_SIZE);
-	ft_putstr_fd("client > ", 1);
-	while ((r = read(1, buff, BUFF_SIZE - 1)) > 0)
-	{
-		buff[r - 1] = 0;
-		if ((write(sock, buff, r)) == -1)
-			break ;
-		if (ft_strncmp(buff, "quit", 4) == 0)
-			break ;
-		// get_msg(sock, buff);
-		ft_putstr_fd("client > ", 1);
-		ft_bzero(buff, BUFF_SIZE);
-	}
+	ft_putstr_fd(" ", 1);
+	// while ((r = read(1, buff, BUFF_SIZE - 1)) > 0)
+	// {
+	// 	buff[r - 1] = 0;
+	// 	if ((write(sock, buff, r)) == -1)
+	// 		break ;
+	// 	if (ft_strncmp(buff, "quit", 4) == 0)
+	// 		break ;
+	// 	// get_msg(sock, buff);
+	// 	ft_putstr_fd("message : ", 1);
+	// 	ft_bzero(buff, BUFF_SIZE);
+	// }
+}
+
+int		client(sock, char *name)
+{
+
 }
 
 int		create_client(char *addr, int port)
@@ -70,7 +76,7 @@ int		main(int argc, char **argv)
 	}
 	port = ft_atoi(argv[2]);
 	sock = create_client(argv[1], port);
-	manager(sock);
+	client(sock);
 	close(sock);
 	return (0);
 }

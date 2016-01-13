@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:23:14 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 13:55:20 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 16:38:06 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@
 # include "../../libft/libft.h"
 
 # define BUFF_SIZE 1024
+# define NAME_LENGTH 20
 
-void	manager(int sock);
-int		create_client(char *addr, int port);
+void			manager(int sock);
+int				create_client(char *addr, int port);
+
+int				check_char_name(char *line);
+char			*choose_name(void);
+
+
 #endif

@@ -6,51 +6,62 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 13:58:12 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 16:03:09 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-// int		manager(int cs)
-// {
-// 	int			r;
-// 	char		buff[BUFF_SIZE];
-
-// 	ft_bzero(buff, BUFF_SIZE);
-// 	while ((r = read(cs, buff, BUFF_SIZE - 1)) > 0)
-// 	{
-// 		buff[r] = 0;
-// 		if (ft_strncmp("pwd", buff, 3) == 0)
-// 			cmd_pwd(cs);
-// 		else if (ft_strncmp("ls", buff, 2) == 0)
-// 			cmd_ls(cs, buff);
-// 		else if (ft_strncmp(buff, "quit", 4) == 0)
-// 			break ;
-// 		else
-// 		{
-// 			send_msg(cs, "Error: command not exist", 0);
-// 			ft_putendl("Error !");
-// 		}
-// 		ft_bzero(buff, BUFF_SIZE);
-// 	}
-// 	return (0);
-// }
-
-int		listen_clients(int sock)
+static void		init_fds(t_server *server, int actual_client)
 {
-	// int					pid;
-	int					cs;
-	unsigned int		cslen;
-	struct sockaddr_in	csin;
+	int		i;
 
-	while ((cs = accept(sock, (struct sockaddr *)&csin, &cslen)) > 0)
-	{
-		ft_putstr("new client\n");
-	}
-	close(cs);
-	return (0);
+	i = 0;
+	FD_ZERO(&(server->rdfs));
+	FD_SET(STDIN_FILENO, &(server->rdfs));
+	FD_SET(server->sock, &(server->rdfs));
+	while (i < actual_client)
+		FD_SET(server->clients[i++].sock, &(server->rdfs));
 }
+
+static void		init_server(t_server *server, int sock)
+{
+	int		i;
+
+	i = 0;
+	server->max = sock;
+	server->sock = sock;
+	while (i < MAX_CLIENTS)
+	{
+		server->clients[i].name = NULL;
+		i++;
+	}
+}
+
+static void		server(int sock)
+{
+	t_server	server;
+	int			actual_client;
+
+	actual_client = 0;
+	init_server(&server, sock);
+	while (1)
+	{
+		init_fds(&server, actual_client);
+		if (select(server.max + 1, &server.rdfs, NULL, NULL, NULL) == -1)
+			ft_putstr("Error : select serveur \n");
+		if (FD_ISSET(STDIN_FILENO, &server.rdfs)) //lecture
+			break ;
+		else if (FD_ISSET(server.sock, &server.rdfs)) // nouvelle connexion
+		{
+			if (new_clients(&server, &actual_client) == 0)
+				continue ;
+		}
+		else //ecriture
+			ft_putstr("talking");
+	}
+}
+
 
 int		create_server(int port)
 {
@@ -91,7 +102,7 @@ int		main(int argc, char **argv)
 	}
 	port = ft_atoi(argv[1]);
 	sock = create_server(port);
-	listen_clients(sock);
+	server(sock);
 	close(sock);
 	return (0);
 }
