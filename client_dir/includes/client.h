@@ -6,7 +6,23 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:23:14 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 11:23:16 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 11:48:21 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef CLIENT_H
+# define CLIENT_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/socket.h>
+# include <unistd.h>
+# include <netdb.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include "../../libft/libft.h"
+
+# define BUFF_SIZE 1024
+
+void	manager(int sock);
+int		create_client(char *addr, int port);
+#endif
