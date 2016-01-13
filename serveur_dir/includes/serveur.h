@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:23:25 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 11:51:06 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 13:55:25 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@
 
 # define BUFF_SIZE 1024
 
-int		manager(int cs);
+// int		manager(int cs);
 int		listen_clients(int stock);
 int		create_server(int port);
-
-void	cmd_pwd(int sock);
-int		cmd_ls(int sock, char *buff);
-
-void	send_msg(int sock, char *msg, int flag);
 
 #endif

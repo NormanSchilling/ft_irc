@@ -6,9 +6,11 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 12:23:06 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 13:58:12 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "serveur.h"
 
 // int		manager(int cs)
 // {
@@ -37,14 +39,14 @@
 
 int		listen_clients(int sock)
 {
-	int					pid;
+	// int					pid;
 	int					cs;
 	unsigned int		cslen;
 	struct sockaddr_in	csin;
 
 	while ((cs = accept(sock, (struct sockaddr *)&csin, &cslen)) > 0)
 	{
-		
+		ft_putstr("new client\n");
 	}
 	close(cs);
 	return (0);

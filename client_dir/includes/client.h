@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:23:14 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 11:48:21 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/13 13:55:20 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <netdb.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <stdlib.h>
 # include "../../libft/libft.h"
 
 # define BUFF_SIZE 1024
