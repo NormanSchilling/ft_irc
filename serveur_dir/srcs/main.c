@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 16:03:09 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/14 15:03:14 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void		init_fds(t_server *server, int actual_client)
 	int		i;
 
 	i = 0;
-	FD_ZERO(&(server->rdfs));
-	FD_SET(STDIN_FILENO, &(server->rdfs));
-	FD_SET(server->sock, &(server->rdfs));
+	FD_ZERO(&(server->groupfd));
+	FD_SET(STDIN_FILENO, &(server->groupfd));
+	FD_SET(server->sock, &(server->groupfd));
 	while (i < actual_client)
-		FD_SET(server->clients[i++].sock, &(server->rdfs));
+		FD_SET(server->clients[i++].sock, &(server->groupfd));
 }
 
 static void		init_server(t_server *server, int sock)
@@ -48,11 +48,11 @@ static void		server(int sock)
 	while (1)
 	{
 		init_fds(&server, actual_client);
-		if (select(server.max + 1, &server.rdfs, NULL, NULL, NULL) == -1)
+		if (select(server.max + 1, &server.groupfd, NULL, NULL, NULL) == -1)
 			ft_putstr("Error : select serveur \n");
-		if (FD_ISSET(STDIN_FILENO, &server.rdfs)) //lecture
+		if (FD_ISSET(STDIN_FILENO, &server.groupfd))
 			break ;
-		else if (FD_ISSET(server.sock, &server.rdfs)) // nouvelle connexion
+		else if (FD_ISSET(server.sock, &server.groupfd)) // nouvelle connexion
 		{
 			if (new_clients(&server, &actual_client) == 0)
 				continue ;

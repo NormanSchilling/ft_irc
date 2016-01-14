@@ -6,18 +6,18 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 13:59:33 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/14 17:03:11 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void		do_select(int sock, fd_set *rdfs)
+static void		do_select(int sock, fd_set *groupfd)
 {
-	FD_ZERO(rdfs);
-	FD_SET(STDIN_FILENO, rdfs);
-	FD_SET(sock, rdfs);
-	if (select(sock, rdfs, NULL, NULL, NULL) == -1)
+	FD_ZERO(groupfd);
+	FD_SET(STDIN_FILENO, groupfd);
+	FD_SET(sock, groupfd);
+	if (select(sock, groupfd, NULL, NULL, NULL) == -1)
 	{
 		ft_putstr("Error: select, do select into client\n");
 		exit(-1);
@@ -27,27 +27,31 @@ static void		do_select(int sock, fd_set *rdfs)
 static void		client(int sock, char *name)
 {
 	char		buff[BUFF_SIZE + 1];
-	fd_set		rdfs;
+	fd_set		groupfd;
 
 	write_to_server(sock, name);
 	while(1)
 	{
-		do_select(sock, &rdfs);
-		if (FD_ISSET(STDIN_FILENO, &rdfs))
+		do_select(sock, &groupfd);
+		if (FD_ISSET(STDIN_FILENO, &groupfd))
 		{
+			ft_putstr("FD_ISSET(STDIN_FILENO, &groupfd)\n");
 			read_message(buff);
+			ft_putstr(buff);
 			write_to_server(sock, buff);
 		}
-		else if (FD_ISSET(sock, &rdfs))
+		else if (FD_ISSET(sock, &groupfd))
 		{
+			ft_putstr("FD_ISSET(sock, &groupfd)\n");
 			if (read_to_server(sock, buff) == 0)
 			{
 				ft_putstr("server disconnect\n");
 				break ;
 			}
 			ft_putendl(buff);
-			// if (ft_strcmp(buff, "Pseudo already used\n") == 0)
-			// 	write_to_server(sock, choose_name());
+			ft_putstr("BEFORE ft_strcmp\n");
+			if (ft_strcmp(buff, "Name is already used !\n") == 0)
+				write_to_server(sock, choose_name());
 		}
 	}
 	close(sock);

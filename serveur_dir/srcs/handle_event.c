@@ -5,39 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/14 11:42:29 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 16:04:43 by nschilli         ###   ########.fr       */
+/*   Created: 2016/01/14 14:11:48 by nschilli          #+#    #+#             */
+/*   Updated: 2016/01/14 16:59:27 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "serveur.h"
 
-void		read_message(char *buff)
-{
-	read(0, buff, BUFF_SIZE);
-	buff[BUFF_SIZE + 1] = 0;
-}
-
-int			read_to_server(int sock, char *buff)
+int		read_to_client(int sock, char *buff)
 {
 	int		r;
 
 	r = 0;
 	if ((r = recv(sock, buff, BUFF_SIZE, 0)) < 0)
 	{
-		ft_putstr("Error : recv, read to server\n");
+		ft_putstr("Error : recv, read to client\n");
 		exit(-1);
 	}
 	buff[r] = 0;
-	ft_putendl(buff);
 	return (r);
 }
 
-void		write_to_server(int sock, char *buff)
+void	write_to_client(int sock, char *buff)
 {
 	if (send(sock, buff, ft_strlen(buff), 0) < 0)
 	{
-		ft_putstr("Error : send, write to server");
+		ft_putstr("Error : send, write to client");
 		exit(-1);
 	}
+	ft_putstr("write_to_client\n");
 }
