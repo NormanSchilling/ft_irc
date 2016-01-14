@@ -6,11 +6,23 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 16:59:46 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/14 17:09:58 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
+
+void		close_clients(t_client *clients, int actual_client)
+{
+	int		i;
+
+	i = 0;
+	while (i < actual_client)
+	{
+		close(clients[i].sock);
+		i++;
+	}
+}
 
 int		new_clients(t_server *server, int *actual_client)
 {
@@ -39,7 +51,6 @@ int		new_clients(t_server *server, int *actual_client)
 	}
 	FD_SET(cs, &(server->groupfd));
 	define_client(server, actual_client, buff, cs);
-	printf("%d\n", cs);
 	write_to_client(cs, "Hello, welcome to the futur !\n");
 	(*actual_client)++;
 	printf("%d\n", (*actual_client));

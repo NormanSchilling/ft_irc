@@ -47,6 +47,7 @@ typedef struct					s_server
 int		listen_clients(int stock);
 int		create_server(int port);
 
+void	close_clients(t_client *clients, int actual);
 int		new_clients(t_server *server, int *actual_client);
 void	define_client(t_server *server, int *actual_client, char *buff, int cs);
 int		check_name(t_server *server, char *buff);

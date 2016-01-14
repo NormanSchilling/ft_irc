@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 15:03:14 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/14 17:10:29 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void		server(int sock)
 		else //ecriture
 			ft_putstr("talking");
 	}
+	close_clients(server.clients, actual_client);
+	close(sock);
 }
 
 
