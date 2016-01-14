@@ -6,39 +6,54 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 16:44:14 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/14 13:59:33 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-void	manager(int sock)
+static void		do_select(int sock, fd_set *rdfs)
 {
-	// int			r;
-	char		buff[BUFF_SIZE];
-	
-
-	ft_bzero(buff, BUFF_SIZE);
-	ft_putstr_fd(" ", 1);
-	// while ((r = read(1, buff, BUFF_SIZE - 1)) > 0)
-	// {
-	// 	buff[r - 1] = 0;
-	// 	if ((write(sock, buff, r)) == -1)
-	// 		break ;
-	// 	if (ft_strncmp(buff, "quit", 4) == 0)
-	// 		break ;
-	// 	// get_msg(sock, buff);
-	// 	ft_putstr_fd("message : ", 1);
-	// 	ft_bzero(buff, BUFF_SIZE);
-	// }
+	FD_ZERO(rdfs);
+	FD_SET(STDIN_FILENO, rdfs);
+	FD_SET(sock, rdfs);
+	if (select(sock, rdfs, NULL, NULL, NULL) == -1)
+	{
+		ft_putstr("Error: select, do select into client\n");
+		exit(-1);
+	}
 }
 
-int		client(sock, char *name)
+static void		client(int sock, char *name)
 {
+	char		buff[BUFF_SIZE + 1];
+	fd_set		rdfs;
 
+	write_to_server(sock, name);
+	while(1)
+	{
+		do_select(sock, &rdfs);
+		if (FD_ISSET(STDIN_FILENO, &rdfs))
+		{
+			read_message(buff);
+			write_to_server(sock, buff);
+		}
+		else if (FD_ISSET(sock, &rdfs))
+		{
+			if (read_to_server(sock, buff) == 0)
+			{
+				ft_putstr("server disconnect\n");
+				break ;
+			}
+			ft_putendl(buff);
+			// if (ft_strcmp(buff, "Pseudo already used\n") == 0)
+			// 	write_to_server(sock, choose_name());
+		}
+	}
+	close(sock);
 }
 
-int		create_client(char *addr, int port)
+static int		create_client(char *addr, int port)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -76,7 +91,7 @@ int		main(int argc, char **argv)
 	}
 	port = ft_atoi(argv[2]);
 	sock = create_client(argv[1], port);
-	client(sock);
+	client(sock, choose_name());
 	close(sock);
 	return (0);
 }

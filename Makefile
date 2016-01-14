@@ -32,6 +32,7 @@ SERVEUR_OBJ = $(SERVEUR_SRC:.c=.o)
 
 CLIENT_FILE = main.c \
 			  name.c \
+			  handle_event.c \
 
 CLIENT_SRC = $(addprefix $(CLIENT_DIR)/$(SRC_DIR), $(CLIENT_FILE))
 

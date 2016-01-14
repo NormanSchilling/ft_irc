@@ -12,14 +12,14 @@
 
 #include "client.h"
 
-int				check_char_name(char *line)
+int				check_char_name(char *name)
 {
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (name[i])
 	{
-		if (ft_isprint(line[i]) && line[i] != ' ')
+		if (ft_isprint(name[i]) && name[i] != ' ')
 			i++;
 		else
 			return (0);
@@ -29,8 +29,10 @@ int				check_char_name(char *line)
 
 char	*choose_name(void)
 {
-	char	name[NAME_LENGTH + 1];
+	int		r;
+	char	*name;
 
+	name = (char *)malloc(sizeof(char) * NAME_LENGTH + 1);
 	write(1, "What's your name ?: ", 20);
 	while ((r = read(0, name, NAME_LENGTH - 1)) > 0)
 	{
