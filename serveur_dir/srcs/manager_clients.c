@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 17:09:58 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 15:38:54 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void		close_clients(t_client *clients, int actual_client)
 	}
 }
 
-int		new_clients(t_server *server, int *actual_client)
+int		new_clients(t_server *server, int *actual_client, char *buff)
 {
-	char				buff[BUFF_SIZE + 1];
 	int					cs;
 	unsigned int		cslen;
 	struct sockaddr_in	csin;
@@ -41,21 +40,15 @@ int		new_clients(t_server *server, int *actual_client)
 		return (-1);
 	if (check_name(server, buff) == -1)
 	{
-		ft_putstr("check_name\n");
 		write_to_client(cs, "Name is already used !\n");
 		if (read_to_client(cs, buff) == -1)
-		{
-			ft_putstr("after if read_to_client\n");
 			return (-1);
-		}
 	}
 	FD_SET(cs, &(server->groupfd));
+	server->max = cs > server->max ? cs : server->max;
 	define_client(server, actual_client, buff, cs);
-	write_to_client(cs, "Hello, welcome to the futur !\n");
 	(*actual_client)++;
-	printf("%d\n", (*actual_client));
-	close(cs);
-	return (0);
+	return (cs);
 }
 
 void	define_client(t_server *server, int *actual_client, char *buff, int cs)
@@ -71,18 +64,52 @@ void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 		server->clients[(*actual_client)].channel[i] = NULL;
 		i++;
 	}
+	ft_putstr("Welcome #");
+	ft_putstr(server->clients[(*actual_client)].name);
 }
 
-int	check_name(t_server *server, char *buff)
+void	error_client_connect(t_server *server, int *actual_client, char *buff, int i)
 {
-	int		i;
+	t_client	client;
+
+	client = server->clients[i];
+	close(server->clients[i].sock);
+	remove_client(server, i, actual_client);
+	ft_strncpy(buff, client.name, NAME_LENGTH);
+	ft_strncat(buff, " disconnected !", BUFF_SIZE - ft_strlen(buff));
+	send_to_all(server, client, actual_client, buff);
+	ft_bzero(client.name, NAME_LENGTH);
+}
+
+void		client_talking(t_server *server, int *actual_client, char *buff)
+{
+	int			i;
+	t_client	client;
 
 	i = 0;
-	while (i < MAX_CLIENTS)
+	ft_putstr("client_talking START\n");
+	while (i < *actual_client)
 	{
-		if (server->clients[i].name != NULL && ft_strcmp(buff, server->clients[i].name) == 0)
-			return (-1);
+		if (FD_ISSET(server->clients[i].sock, &(server->groupfd)))
+		{
+			client = server->clients[i];
+			if (read_to_client(server->clients[i].sock, buff) == 0)
+			{
+				error_client_connect(server, actual_client, buff, i);
+			}
+			else
+			{
+				ft_putstr(buff);
+				send_to_by_channel(server, client, actual_client, buff);
+			}
+			break ;
+		}
 		i++;
 	}
-	return (0);
 }
+
+// else if (buff[0] == '/')
+// {
+// 	if ((tmp = cmd(buff, &(server->clients[i]), server)))
+// 		write_client(server->clients[i].sock, tmp);
+// }

@@ -24,9 +24,10 @@
 # include <sys/select.h>
 # include "../../libft/libft.h"
 
-# define BUFF_SIZE 1024
+# define BUFF_SIZE 512
 # define MAX_CLIENTS 42
 # define MAX_CHANNEL 10
+# define NAME_LENGTH 20
 
 typedef struct					s_client
 {
@@ -48,11 +49,21 @@ int		listen_clients(int stock);
 int		create_server(int port);
 
 void	close_clients(t_client *clients, int actual);
-int		new_clients(t_server *server, int *actual_client);
+int		new_clients(t_server *server, int *actual_client, char *buff);
 void	define_client(t_server *server, int *actual_client, char *buff, int cs);
-int		check_name(t_server *server, char *buff);
+void	error_client_connect(t_server *server, int *actual_client,
+		char *buff, int i);
+void	client_talking(t_server *server, int *actual_client, char *buff);
 
 int		read_to_client(int sock, char *buff);
 void	write_to_client(int sock, char *buff);
+void	remove_client(t_server *server, int i, int *actual_client);
+void	send_to_by_channel(t_server *server, t_client client,
+		int *actual_client, char *buff);
+void	send_to_all(t_server *server, t_client client,
+		int *actual_client, char *buff);
+
+int		check_name(t_server *server, char *buff);
+int		check_channel(t_client sender, t_client dest);
 
 #endif

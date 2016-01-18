@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 17:10:29 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 15:39:53 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void		init_fds(t_server *server, int actual_client)
 	FD_SET(STDIN_FILENO, &(server->groupfd));
 	FD_SET(server->sock, &(server->groupfd));
 	while (i < actual_client)
-		FD_SET(server->clients[i++].sock, &(server->groupfd));
+	{
+		FD_SET(server->clients[i].sock, &(server->groupfd));
+		i++;
+	}
 }
 
 static void		init_server(t_server *server, int sock)
@@ -42,6 +45,7 @@ static void		server(int sock)
 {
 	t_server	server;
 	int			actual_client;
+	char		buff[BUFF_SIZE + 1];
 
 	actual_client = 0;
 	init_server(&server, sock);
@@ -52,13 +56,13 @@ static void		server(int sock)
 			ft_putstr("Error : select serveur \n");
 		if (FD_ISSET(STDIN_FILENO, &server.groupfd))
 			break ;
-		else if (FD_ISSET(server.sock, &server.groupfd)) // nouvelle connexion
+		else if (FD_ISSET(server.sock, &server.groupfd))
 		{
-			if (new_clients(&server, &actual_client) == 0)
+			if (new_clients(&server, &actual_client, buff) == 0)
 				continue ;
 		}
-		else //ecriture
-			ft_putstr("talking");
+		else
+			client_talking(&server, &actual_client, buff);
 	}
 	close_clients(server.clients, actual_client);
 	close(sock);
@@ -74,7 +78,7 @@ int		create_server(int port)
 	proto = getprotobyname("tcp");
 	if (proto == 0)
 		return (-1);
-	if ((sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)) == -1)
+	if ((sock = socket(AF_INET, SOCK_STREAM, proto->p_proto)) == -1)
 	{
 		ft_putstr("Error: socket !\n");
 		exit(-1);

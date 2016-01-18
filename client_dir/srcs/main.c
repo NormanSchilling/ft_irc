@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/14 17:03:11 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 15:42:31 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,26 @@ static void		do_select(int sock, fd_set *groupfd)
 
 static void		client(int sock, char *name)
 {
-	char		buff[BUFF_SIZE + 1];
+	char		buff[BUFF_SIZE];
 	fd_set		groupfd;
 
 	write_to_server(sock, name);
-	while(1)
+	while (1)
 	{
 		do_select(sock, &groupfd);
 		if (FD_ISSET(STDIN_FILENO, &groupfd))
 		{
-			ft_putstr("FD_ISSET(STDIN_FILENO, &groupfd)\n");
 			read_message(buff);
-			ft_putstr(buff);
 			write_to_server(sock, buff);
 		}
 		else if (FD_ISSET(sock, &groupfd))
 		{
-			ft_putstr("FD_ISSET(sock, &groupfd)\n");
 			if (read_to_server(sock, buff) == 0)
 			{
 				ft_putstr("server disconnect\n");
 				break ;
 			}
 			ft_putendl(buff);
-			ft_putstr("BEFORE ft_strcmp\n");
 			if (ft_strcmp(buff, "Name is already used !\n") == 0)
 				write_to_server(sock, choose_name());
 		}
@@ -66,7 +62,7 @@ static int		create_client(char *addr, int port)
 	proto = getprotobyname("tcp");
 	if (proto == 0)
 		return (-1);
-	if ((sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)) == -1)
+	if ((sock = socket(AF_INET, SOCK_STREAM, proto->p_proto)) == -1)
 	{
 		ft_putstr("Error: socket !\n");
 		exit(-1);
