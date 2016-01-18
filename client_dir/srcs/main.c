@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 15:42:31 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 16:36:42 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,17 @@ static void		client(int sock, char *name)
 	write_to_server(sock, name);
 	while (1)
 	{
+		ft_bzero(buff, BUFF_SIZE);
 		do_select(sock, &groupfd);
 		if (FD_ISSET(STDIN_FILENO, &groupfd))
 		{
 			read_message(buff);
 			write_to_server(sock, buff);
+			ft_putstr("FD_ISSET(STDIN_FILENO, &groupfd)");
 		}
 		else if (FD_ISSET(sock, &groupfd))
 		{
+			ft_putstr("FD_ISSET(sock, &groupfd)");
 			if (read_to_server(sock, buff) == 0)
 			{
 				ft_putstr("server disconnect\n");

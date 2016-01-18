@@ -24,7 +24,7 @@
 # include <sys/select.h>
 # include "../../libft/libft.h"
 
-# define BUFF_SIZE 512
+# define BUFF_SIZE 256
 # define MAX_CLIENTS 42
 # define MAX_CHANNEL 10
 # define NAME_LENGTH 20

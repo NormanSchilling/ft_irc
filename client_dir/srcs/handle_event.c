@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 11:42:29 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 14:53:58 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 16:33:13 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		read_message(char *buff)
 {
 	read(0, buff, BUFF_SIZE - 1);
-	buff[BUFF_SIZE - 1] = 0;
+	buff[BUFF_SIZE] = 0;
 }
 
 int			read_to_server(int sock, char *buff)
@@ -29,6 +29,7 @@ int			read_to_server(int sock, char *buff)
 		exit(-1);
 	}
 	buff[r] = 0;
+	ft_putstr(buff);
 	return (r);
 }
 

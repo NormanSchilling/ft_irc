@@ -24,7 +24,7 @@
 # include <unistd.h>
 # include "../../libft/libft.h"
 
-# define BUFF_SIZE 512
+# define BUFF_SIZE 256
 # define NAME_LENGTH 20
 
 int				check_char_name(char *name);

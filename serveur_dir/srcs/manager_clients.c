@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 15:38:54 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/18 16:20:00 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 	i = 0;
 	server->clients[(*actual_client)].sock = cs;
 	server->clients[(*actual_client)].name = ft_strdup(buff);
+	server->clients[(*actual_client)].name[
+		ft_strlen(server->clients[(*actual_client)].name) - 1] = 0;
 	server->clients[(*actual_client)].n_channel = 0;
 	while (i < MAX_CHANNEL)
 	{
@@ -65,7 +67,7 @@ void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 		i++;
 	}
 	ft_putstr("Welcome #");
-	ft_putstr(server->clients[(*actual_client)].name);
+	ft_putendl(server->clients[(*actual_client)].name);
 }
 
 void	error_client_connect(t_server *server, int *actual_client, char *buff, int i)
@@ -87,7 +89,6 @@ void		client_talking(t_server *server, int *actual_client, char *buff)
 	t_client	client;
 
 	i = 0;
-	ft_putstr("client_talking START\n");
 	while (i < *actual_client)
 	{
 		if (FD_ISSET(server->clients[i].sock, &(server->groupfd)))
@@ -99,7 +100,6 @@ void		client_talking(t_server *server, int *actual_client, char *buff)
 			}
 			else
 			{
-				ft_putstr(buff);
 				send_to_by_channel(server, client, actual_client, buff);
 			}
 			break ;
