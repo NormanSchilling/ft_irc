@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 14:11:48 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 16:26:13 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/20 11:23:28 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	send_to_by_channel(t_server *server, t_client client, int *actual_client, c
 		if (client.sock != server->clients[i].sock
 			&& client.n_channel == server->clients[i].n_channel)
 		{
-			ft_putstr(message);
 			write_to_client(server->clients[i].sock, message);
 		}
 		i++;

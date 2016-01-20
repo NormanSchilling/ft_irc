@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 16:36:42 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/20 11:21:38 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void		do_select(int sock, fd_set *groupfd)
 	FD_ZERO(groupfd);
 	FD_SET(STDIN_FILENO, groupfd);
 	FD_SET(sock, groupfd);
-	if (select(sock, groupfd, NULL, NULL, NULL) == -1)
+	if (select(sock + 1, groupfd, NULL, NULL, NULL) == -1)
 	{
 		ft_putstr("Error: select, do select into client\n");
 		exit(-1);
@@ -38,11 +38,9 @@ static void		client(int sock, char *name)
 		{
 			read_message(buff);
 			write_to_server(sock, buff);
-			ft_putstr("FD_ISSET(STDIN_FILENO, &groupfd)");
 		}
 		else if (FD_ISSET(sock, &groupfd))
 		{
-			ft_putstr("FD_ISSET(sock, &groupfd)");
 			if (read_to_server(sock, buff) == 0)
 			{
 				ft_putstr("server disconnect\n");
