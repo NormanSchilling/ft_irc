@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 16:20:00 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/20 15:13:55 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ void		client_talking(t_server *server, int *actual_client, char *buff)
 			if (read_to_client(server->clients[i].sock, buff) == 0)
 			{
 				error_client_connect(server, actual_client, buff, i);
+			}
+			else if (buff[0] == '/')
+			{
+				command(server, &(server->clients[i]), buff);
 			}
 			else
 			{

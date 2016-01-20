@@ -45,6 +45,13 @@ typedef struct					s_server
 	t_client					clients[MAX_CLIENTS];
 }								t_server;
 
+typedef struct					s_cmd
+{
+	char						*name;
+	void						(*f)(char *, t_client *, t_server *);
+	int							length;
+}								t_cmd;
+
 int		listen_clients(int stock);
 int		create_server(int port);
 
@@ -65,5 +72,14 @@ void	send_to_all(t_server *server, t_client client,
 
 int		check_name(t_server *server, char *buff);
 int		check_channel(t_client sender, t_client dest);
+
+void		ft_nick(char *buff, t_client *client, t_server *server);
+void		ft_who(char *buff, t_client *client, t_server *server);
+void		ft_join(char *buff, t_client *client, t_server *server);
+void		ft_leave(char *buff, t_client *client, t_server *server);
+void		ft_msg(char *buff, t_client *client, t_server *server);
+
+void		add_channel(char *name, t_client *client);
+void		command(t_server *server, t_client *client, char *buff);
 
 #endif

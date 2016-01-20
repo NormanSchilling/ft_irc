@@ -26,6 +26,8 @@ INC_DIR = includes/
 SERVEUR_FILE =	main.c \
 				manager_clients.c \
 				handle_event.c \
+				manager_commands.c \
+				command.c \
 				check.c \
 
 SERVEUR_SRC = $(addprefix $(SERVEUR_DIR)/$(SRC_DIR), $(SERVEUR_FILE))
