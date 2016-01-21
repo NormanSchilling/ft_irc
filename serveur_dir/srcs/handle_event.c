@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 14:11:48 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 12:01:20 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:47:43 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ void	write_to_client(int sock, char *buff)
 	}
 }
 
-void		remove_client(t_server *server, int i, int *actual_client)
+void	remove_client(t_server *server, int i, int *actual_client)
 {
 	t_client	*client;
 
 	client = server->clients;
-	ft_memmove(client + i, client + i + 1, (*actual_client - i - 1) * sizeof(t_client));
+	ft_memmove(client + i, client + i + 1,
+		(*actual_client - i - 1) * sizeof(t_client));
 	(*actual_client)--;
 }
 
-void	send_to_by_channel(t_server *server, t_client client, int *actual_client, char *buff)
+void	send_to_by_channel(t_server *server, t_client client,
+	int *actual_client, char *buff)
 {
 	int		i;
 	char	*message;
@@ -64,7 +66,8 @@ void	send_to_by_channel(t_server *server, t_client client, int *actual_client, c
 	}
 }
 
-void	send_to_all(t_server *server, t_client client, int *actual_client, char *buff)
+void	send_to_all(t_server *server, t_client client,
+	int *actual_client, char *buff)
 {
 	int		i;
 

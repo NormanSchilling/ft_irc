@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 12:14:51 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:35:02 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:47:07 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	check_name(t_server *server, char *buff)
 	i = 0;
 	while (i < MAX_CLIENTS)
 	{
-		if (server->clients[i].name != NULL && ft_strcmp(buff, server->clients[i].name) == 0)
+		if (server->clients[i].name != NULL
+			&& ft_strcmp(buff, server->clients[i].name) == 0)
 			return (-1);
 		i++;
 	}

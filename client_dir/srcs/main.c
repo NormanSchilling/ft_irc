@@ -6,13 +6,13 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:36:34 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:44:16 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void		do_select(int sock, fd_set *groupfd)
+static	void	do_select(int sock, fd_set *groupfd)
 {
 	FD_ZERO(groupfd);
 	FD_SET(STDIN_FILENO, groupfd);
@@ -24,7 +24,7 @@ static void		do_select(int sock, fd_set *groupfd)
 	}
 }
 
-static void		client(int sock, char *name)
+static	void	client(int sock, char *name)
 {
 	char		buff[BUFF_SIZE];
 	fd_set		groupfd;
@@ -53,7 +53,7 @@ static void		client(int sock, char *name)
 	close(sock);
 }
 
-static int		create_client(char *addr, int port)
+static	int		create_client(char *addr, int port)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -78,8 +78,7 @@ static int		create_client(char *addr, int port)
 	return (sock);
 }
 
-
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	int			port;
 	int			sock;

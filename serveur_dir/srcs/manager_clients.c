@@ -6,13 +6,13 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:37:39 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:52:32 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void		close_clients(t_client *clients, int actual_client)
+void	close_clients(t_client *clients, int actual_client)
 {
 	int		i;
 
@@ -52,7 +52,7 @@ int		new_clients(t_server *server, int *actual_client, char *buff)
 }
 
 void	define_client(t_server *server, int *actual_client, char *buff, int cs)
-{	
+{
 	int		i;
 	char	*welcome;
 
@@ -71,7 +71,8 @@ void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 	ft_putendl(server->clients[(*actual_client)].name);
 }
 
-void	error_client_connect(t_server *server, int *actual_client, char *buff, int i)
+void	error_client_connect(t_server *server,
+	int *actual_client, char *buff, int i)
 {
 	t_client	client;
 
@@ -84,7 +85,7 @@ void	error_client_connect(t_server *server, int *actual_client, char *buff, int 
 	ft_bzero(client.name, NAME_LENGTH);
 }
 
-void		client_talking(t_server *server, int *actual_client, char *buff)
+void	client_talking(t_server *server, int *actual_client, char *buff)
 {
 	int			i;
 	t_client	client;

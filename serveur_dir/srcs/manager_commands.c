@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 15:16:17 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 11:24:21 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:56:09 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void		add_channel(char *name, t_client *client)
 void		command(t_server *server, t_client *client, char *buff)
 {
 	int				i;
-	static	t_cmd	array_cmd[6] =
-	{
+	static	t_cmd	array_cmd[6] = {
 		{"/nick", &ft_nick, 5},
 		{"/who", &ft_who, 4},
 		{"/join", &ft_join, 5},

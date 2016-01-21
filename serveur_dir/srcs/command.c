@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 11:54:35 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:39:52 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:49:59 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void		ft_join(char *buff, t_client *client, t_server *server)
 		{
 			if (ft_strcmp(client->channel[i], tmp[1]) == 0)
 			{
-				write_to_client(client->sock, "/join => channel already joined !");
+				write_to_client(client->sock,
+					"/join => channel already joined !");
 				return ;
 			}
 		}
@@ -79,7 +80,6 @@ void		ft_leave(char *buff, t_client *client, t_server *server)
 	}
 	else
 	{
-
 		while (i < MAX_CHANNEL)
 			client->channel[i++] = NULL;
 		client->n_channel = 0;
@@ -114,4 +114,3 @@ void		ft_msg(char *buff, t_client *client, t_server *server)
 		i++;
 	}
 }
-

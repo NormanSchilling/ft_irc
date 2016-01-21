@@ -6,13 +6,13 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 16:23:41 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/13 16:43:47 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:42:50 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-int				check_char_name(char *name)
+int		check_char_name(char *name)
 {
 	int	i;
 

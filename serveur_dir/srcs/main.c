@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:20:40 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/18 15:39:53 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:49:27 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ static void		server(int sock)
 	close(sock);
 }
 
-
-int		create_server(int port)
+int				create_server(int port)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -95,7 +94,7 @@ int		create_server(int port)
 	return (sock);
 }
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	int					port;
 	int					sock;
