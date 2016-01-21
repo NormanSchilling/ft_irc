@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 11:21:39 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:20:18 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:36:34 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void		client(int sock, char *name)
 	write_to_server(sock, name);
 	while (1)
 	{
-		// ft_bzero(buff, BUFF_SIZE);
 		do_select(sock, &groupfd);
 		if (FD_ISSET(STDIN_FILENO, &groupfd))
 		{
@@ -47,7 +46,7 @@ static void		client(int sock, char *name)
 				break ;
 			}
 			ft_putendl(buff);
-			if (ft_strcmp(buff, "Name is already used !\n") == 0)
+			if (ft_strcmp(buff, "Name is already used !") == 0)
 				write_to_server(sock, choose_name());
 		}
 	}

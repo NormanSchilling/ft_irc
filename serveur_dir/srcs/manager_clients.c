@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 11:59:45 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:37:39 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		new_clients(t_server *server, int *actual_client, char *buff)
 	}
 	if (read_to_client(cs, buff) == -1)
 		return (-1);
-	if (check_name(server, buff) == -1)
+	while (check_name(server, buff) == -1)
 	{
 		write_to_client(cs, "Name is already used !");
 		if (read_to_client(cs, buff) == -1)
@@ -54,18 +54,19 @@ int		new_clients(t_server *server, int *actual_client, char *buff)
 void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 {	
 	int		i;
+	char	*welcome;
 
 	i = 0;
 	server->clients[(*actual_client)].sock = cs;
 	server->clients[(*actual_client)].name = ft_strdup(buff);
-	// server->clients[(*actual_client)].name[
-		// ft_strlen(server->clients[(*actual_client)].name) - 1] = 0;
 	server->clients[(*actual_client)].n_channel = 0;
 	while (i < MAX_CHANNEL)
 	{
 		server->clients[(*actual_client)].channel[i] = NULL;
 		i++;
 	}
+	welcome = ft_strjoin("Welcome #", server->clients[(*actual_client)].name);
+	write_to_client(server->clients[(*actual_client)].sock, welcome);
 	ft_putstr("Welcome #");
 	ft_putendl(server->clients[(*actual_client)].name);
 }

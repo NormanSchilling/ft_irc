@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 11:54:35 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/21 13:28:16 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:39:52 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void		ft_who(char *buff, t_client *client, t_server *server)
 			&& server->clients[i].n_channel == client->n_channel
 			&& ft_strcmp(client->name, server->clients[i].name) != 0)
 		{
-			ft_putendl(server->clients[i].name);
 			write_to_client(client->sock, server->clients[i].name);
 		}
 		i++;
