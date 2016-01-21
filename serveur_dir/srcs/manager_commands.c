@@ -6,25 +6,28 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 15:16:17 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/20 16:47:23 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 11:24:21 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void		delete_channel(t_client *client)
+void		delete_channel(char *buff, t_client *client)
 {
 	int		i;
+	char	**tmp;
 
+	tmp = ft_strsplit(buff, ' ');
 	i = 0;
 	while (i < MAX_CHANNEL)
 	{
-		if (client->channel[i] && tmp)
+		if (client->channel[i] && tmp[1])
 		{
-			if (ft_strcmp(client->channel[i], tmp) == 0)
+			if (ft_strcmp(client->channel[i], tmp[1]) == 0)
 			{
 				client->channel[i] = NULL;
-				client->nb_channel--;
+				client->n_channel--;
+				write_to_client(client->sock, "leave with success !");
 				return ;
 			}
 		}
@@ -41,12 +44,12 @@ void		add_channel(char *name, t_client *client)
 		i++;
 	if (client->n_channel + 1 == MAX_CHANNEL)
 	{
-		write_to_client(client->sock, "/join => limit of channel !\n");
+		write_to_client(client->sock, "/join => limit of channel !");
 		return ;
 	}
 	client->channel[i] = ft_strdup(name);
 	client->n_channel++;
-	write_to_client(client->sock, "channel join !\n");
+	write_to_client(client->sock, "channel join !");
 }
 
 void		command(t_server *server, t_client *client, char *buff)

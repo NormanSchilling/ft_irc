@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/13 14:44:38 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/20 15:13:55 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 11:59:45 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		new_clients(t_server *server, int *actual_client, char *buff)
 		return (-1);
 	if (check_name(server, buff) == -1)
 	{
-		write_to_client(cs, "Name is already used !\n");
+		write_to_client(cs, "Name is already used !");
 		if (read_to_client(cs, buff) == -1)
 			return (-1);
 	}
@@ -58,8 +58,8 @@ void	define_client(t_server *server, int *actual_client, char *buff, int cs)
 	i = 0;
 	server->clients[(*actual_client)].sock = cs;
 	server->clients[(*actual_client)].name = ft_strdup(buff);
-	server->clients[(*actual_client)].name[
-		ft_strlen(server->clients[(*actual_client)].name) - 1] = 0;
+	// server->clients[(*actual_client)].name[
+		// ft_strlen(server->clients[(*actual_client)].name) - 1] = 0;
 	server->clients[(*actual_client)].n_channel = 0;
 	while (i < MAX_CHANNEL)
 	{
@@ -111,9 +111,3 @@ void		client_talking(t_server *server, int *actual_client, char *buff)
 		i++;
 	}
 }
-
-// else if (buff[0] == '/')
-// {
-// 	if ((tmp = cmd(buff, &(server->clients[i]), server)))
-// 		write_client(server->clients[i].sock, tmp);
-// }

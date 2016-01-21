@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 11:42:29 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/20 11:24:55 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 12:04:59 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ int			read_to_server(int sock, char *buff)
 
 void		write_to_server(int sock, char *buff)
 {
-	if (send(sock, buff, ft_strlen(buff), 0) < 0)
+	char	*tmp;
+
+	tmp = ft_strdup(buff);
+	if (tmp[ft_strlen(tmp) - 1] == '\n')
+		tmp[ft_strlen(tmp) - 1] = 0;
+	if (send(sock, tmp, ft_strlen(tmp), 0) < 0)
 	{
 		ft_putstr("Error : send, write to server");
 		exit(-1);

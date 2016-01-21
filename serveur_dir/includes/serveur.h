@@ -79,6 +79,7 @@ void		ft_join(char *buff, t_client *client, t_server *server);
 void		ft_leave(char *buff, t_client *client, t_server *server);
 void		ft_msg(char *buff, t_client *client, t_server *server);
 
+void		delete_channel(char *buff, t_client *client);
 void		add_channel(char *name, t_client *client);
 void		command(t_server *server, t_client *client, char *buff);
 

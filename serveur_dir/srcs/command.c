@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 11:54:35 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/20 16:34:05 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:28:16 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void		ft_who(char *buff, t_client *client, t_server *server)
 			&& server->clients[i].n_channel == client->n_channel
 			&& ft_strcmp(client->name, server->clients[i].name) != 0)
 		{
+			ft_putendl(server->clients[i].name);
 			write_to_client(client->sock, server->clients[i].name);
 		}
 		i++;
@@ -58,7 +59,7 @@ void		ft_join(char *buff, t_client *client, t_server *server)
 		{
 			if (ft_strcmp(client->channel[i], tmp[1]) == 0)
 			{
-				write_to_client(client->sock, "/join => channel already joined !\n");
+				write_to_client(client->sock, "/join => channel already joined !");
 				return ;
 			}
 		}
@@ -75,15 +76,16 @@ void		ft_leave(char *buff, t_client *client, t_server *server)
 	i = 0;
 	if (ft_strlen(buff) > 6)
 	{
-		ft_channels(buff, client);
+		delete_channel(buff, client);
 	}
 	else
 	{
+
 		while (i < MAX_CHANNEL)
 			client->channel[i++] = NULL;
 		client->n_channel = 0;
+		write_to_client(client->sock, "leave with success !");
 	}
-	return ("All channels leaved");
 }
 
 void		ft_msg(char *buff, t_client *client, t_server *server)

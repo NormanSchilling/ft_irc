@@ -6,7 +6,7 @@
 /*   By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 14:11:48 by nschilli          #+#    #+#             */
-/*   Updated: 2016/01/20 11:47:04 by nschilli         ###   ########.fr       */
+/*   Updated: 2016/01/21 12:01:20 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	write_to_client(int sock, char *buff)
 {
 	if (send(sock, buff, ft_strlen(buff), 0) < 0)
 	{
-		ft_putstr("Error : send, write to client");
+		ft_putstr("Error : send, write to client\n");
 		exit(-1);
 	}
 }
